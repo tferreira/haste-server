@@ -107,6 +107,10 @@ connect.createServer(
     app.get('/search/:term', function(request, response, next) {
       return documentHandler.handleSearch(request.params.term, response);
     });
+    // delete document
+    app.get('/delete/:id', function(request, response, next) {
+      return documentHandler.handleDelete(request.params.id, response);
+    });
     // get raw documents - support getting with extension
     app.get('/raw/:id', function(request, response, next) {
       var skipExpire = !!config.documents[request.params.id];

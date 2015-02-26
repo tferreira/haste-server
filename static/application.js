@@ -56,6 +56,7 @@ haste_document.prototype.save = function(data, callback) {
   if (this.locked) {
     return false;
   }
+  var title = prompt("Choose a title: ", "");
   this.data = data;
   var _this = this;
   $.ajax('/documents', {
@@ -71,7 +72,7 @@ haste_document.prototype.save = function(data, callback) {
         value: high.value,
         key: res.key,
         language: high.language,
-        lineCount: data.split("\n").length
+        lineCount: data.split("\n").length,
       });
     },
     error: function(res) {
@@ -98,9 +99,9 @@ var haste = function(appName, options) {
   this.configureShortcuts();
   this.configureButtons();
   this.configureSearch();
-  // If twitter is disabled, hide the button
-  if (!options.twitter) {
-    $('#box2 .twitter').hide();
+  // If del is disabled, hide the button
+  if (!options.del) {
+    $('#box2 .del').hide();
   }
 };
 
@@ -126,7 +127,7 @@ haste.prototype.lightKey = function() {
 
 // Show the full key
 haste.prototype.fullKey = function() {
-  this.configureKey(['new', 'duplicate', 'twitter', 'raw']);
+  this.configureKey(['new', 'duplicate', 'del', 'raw']);
 };
 
 // Set up the search field
@@ -291,6 +292,15 @@ haste.prototype.duplicateDocument = function() {
   }
 };
 
+// Delete the current document
+haste.prototype.deleteDocument = function() {
+  $.ajax({
+      url:'/delete/' + this.doc.key,
+      type:"get"
+  });
+  this.newDocument();
+};
+
 // Lock the current document
 haste.prototype.lockDocument = function() {
   var _this = this;
@@ -364,14 +374,16 @@ haste.prototype.configureButtons = function() {
       }
     },
     {
-      $where: $('#box2 .twitter'),
-      label: 'Twitter',
+      $where: $('#box2 .del'),
+      label: 'Delete',
       shortcut: function(evt) {
-        return _this.options.twitter && _this.doc.locked && evt.shiftKey && evt.ctrlKey && evt.keyCode == 84;
+        return _this.options.del && _this.doc.locked && evt.shiftKey && evt.ctrlKey && evt.keyCode == 84;
       },
-      shortcutDescription: 'control + shift + t',
+      shortcutDescription: 'control + shift + d',
       action: function() {
-        window.open('https://twitter.com/share?url=' + encodeURI(window.location.href));
+        if (confirm("Are you sure?")) {
+          _this.deleteDocument();
+        }
       }
     }
   ];
