@@ -103,6 +103,10 @@ var documentHandler = new DocumentHandler({
 connect.createServer(
   // First look for api calls
   connect.router(function(app) {
+    // search in documents titles
+    app.get('/search/:term', function(request, response, next) {
+      return documentHandler.handleSearch(request.params.term, response);
+    });
     // get raw documents - support getting with extension
     app.get('/raw/:id', function(request, response, next) {
       var skipExpire = !!config.documents[request.params.id];

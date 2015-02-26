@@ -4,9 +4,9 @@ body {
 	margin: 0px;
 }
 
-/* textarea */
+/* textarea (code) */
 
-textarea {
+#textarea_code {
 	background: transparent;
 	border: 0px;
 	color: #fff;
@@ -69,6 +69,15 @@ textarea {
 	background: #08323c;
 	font-size: 0px;
 	padding: 0px 5px;
+}
+
+#box4 {
+    position: absolute;
+    top: 140px;
+}
+
+#search {
+    width: 170px;
 }
 
 #box1 a.logo, #box1 a.logo:visited {

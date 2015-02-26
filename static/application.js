@@ -89,13 +89,15 @@ haste_document.prototype.save = function(data, callback) {
 
 var haste = function(appName, options) {
   this.appName = appName;
-  this.$textarea = $('textarea');
+  this.$textarea = $('#textarea_code');
   this.$box = $('#box');
   this.$code = $('#box code');
   this.$linenos = $('#linenos');
+  this.$search = $('#search')
   this.options = options;
   this.configureShortcuts();
   this.configureButtons();
+  this.configureSearch();
   // If twitter is disabled, hide the button
   if (!options.twitter) {
     $('#box2 .twitter').hide();
@@ -125,6 +127,63 @@ haste.prototype.lightKey = function() {
 // Show the full key
 haste.prototype.fullKey = function() {
   this.configureKey(['new', 'duplicate', 'twitter', 'raw']);
+};
+
+// Set up the search field
+haste.prototype.configureSearch = function() {
+    var _this = this;
+    _this.$search.focus(function(srcc)
+    {
+        if (_this.$search.val() == _this.$search.attr('title'))
+        {
+            _this.$search.removeClass("defaultTextActive");
+            _this.$search.val("");
+        }
+    });
+    
+    _this.$search.blur(function()
+    {
+        if (_this.$search.val() == "")
+        {
+            _this.$search.addClass("defaultTextActive");
+            _this.$search.val(_this.$search.attr('title'));
+        }
+    });
+    
+    _this.$search.blur();
+
+  $( "#search" ).autocomplete({
+    minLength: 2,
+    source: function(req, add){
+        $.ajax({
+            url:'/search/' + req.term,
+            type:"get",
+            dataType: 'json',
+            async: true,
+            cache: true,
+            success: function(data){
+                add($.map(data.data, function(item) {
+                    return {
+                        value : item.title,
+                        url : '/' + item.entry_key
+                    }
+                }));
+            }
+        });
+    },
+    focus : function(event, ui) {
+        $(this).val(ui.item.title_page);
+        return false;
+    },
+    select : function(event, ui) {
+        window.location.href = ui.item.url;
+        return false;
+    }
+  }).data("uiAutocomplete")._renderItem = function (ul, item) {
+    return $("<li></li>").data("item.autocomplete", item).append(
+        '<a href="'+item.url+'">' + item.value + '</span></a>')
+        .appendTo(ul.addClass('list-row'));
+  };
 };
 
 // Set the key up for certain things to be enabled
@@ -362,7 +421,7 @@ haste.prototype.configureShortcuts = function() {
 ///// Tab behavior in the textarea - 2 spaces per tab
 $(function() {
 
-  $('textarea').keydown(function(evt) {
+  $('#textarea_code').keydown(function(evt) {
     if (evt.keyCode === 9) {
       evt.preventDefault();
       var myValue = '  ';

@@ -6,8 +6,10 @@
 
 		<link rel="stylesheet" type="text/css" href="solarized_dark.css"/>
 		<link rel="stylesheet" type="text/css" href="application.css"/>
+        <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
 
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="highlight.min.js"></script>
 		<script type="text/javascript" src="application.min.js"></script>
 
@@ -57,11 +59,14 @@
 				<div class="label"></div>
 				<div class="shortcut"></div>
 			</div>
+            <div id="box4">
+                <input type="text" id="search" title="Search..." size="12">
+            </div>
 		</div>
 
 		<div id="linenos"></div>
 		<pre id="box" style="display:none;" tabindex="0"><code></code></pre>
-		<textarea spellcheck="false" style="display:none;"></textarea>
+		<textarea id="textarea_code" spellcheck="false" style="display:none;"></textarea>
 
 	</body>
 
