@@ -61,7 +61,7 @@ haste_document.prototype.save = function(data, callback) {
   var _this = this;
   $.ajax('/documents', {
     type: 'post',
-    data: data,
+    data: {body: data, title: title},
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     success: function(res) {
