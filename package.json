@@ -20,7 +20,6 @@
     "redis": "0.8.1",
     "uglify-js": "1.3.3",
     "busboy": "0.2.4",
-    //"mysql": "2.5.5",
     "dblite": "0.7.0"
   },
   "devDependencies": {
