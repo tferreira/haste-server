@@ -41,6 +41,12 @@ input[type="text"].focus {
 	font-size: 13px;
 }
 
+.ui-autocomplete {
+    max-height: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 /* the line numbers */
 
 #linenos {
