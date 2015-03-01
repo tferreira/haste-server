@@ -52,12 +52,12 @@ haste_document.prototype.load = function(key, callback, lang) {
 };
 
 // Save this document to the server and lock it here
-haste_document.prototype.save = function(data, callback) {
+haste_document.prototype.save = function(title, data, callback) {
   if (this.locked) {
     return false;
   }
-  var title = prompt("Choose a title: ", "");
   this.data = data;
+  this.title = title;
   var _this = this;
   $.ajax('/documents', {
     type: 'post',
@@ -99,6 +99,7 @@ var haste = function(appName, options) {
   this.configureShortcuts();
   this.configureButtons();
   this.configureSearch();
+  this.configureModals();
   // If del is disabled, hide the button
   if (!options.del) {
     $('#box2 .del').hide();
@@ -129,6 +130,39 @@ haste.prototype.lightKey = function() {
 haste.prototype.fullKey = function() {
   this.configureKey(['new', 'duplicate', 'del', 'raw']);
 };
+
+haste.prototype.configureModals = function() {
+  var _this = this;
+
+  $( "#dialog-delete" ).dialog({
+    autoOpen: false,
+    modal: true,
+    buttons: {
+      "Delete": function() {
+        _this.deleteDocument();
+        $( this ).dialog( "close" );
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
+
+  $("#dialog-save").dialog({
+      autoOpen: false,
+      modal: true,
+      buttons: {
+          "Ok": function() {
+              var title = $("#title");
+              _this.lockDocument(title.val());
+              $(this).dialog("close");
+          },
+          "Cancel": function() {
+              $(this).dialog("close");
+          }
+      }
+  });
+}
 
 // Set up the search field
 haste.prototype.configureSearch = function() {
@@ -302,9 +336,9 @@ haste.prototype.deleteDocument = function() {
 };
 
 // Lock the current document
-haste.prototype.lockDocument = function() {
+haste.prototype.lockDocument = function(title) {
   var _this = this;
-  this.doc.save(this.$textarea.val(), function(err, ret) {
+  this.doc.save(title, this.$textarea.val(), function(err, ret) {
     if (err) {
       _this.showMessage(err.message, 'error');
     }
@@ -336,7 +370,7 @@ haste.prototype.configureButtons = function() {
       },
       action: function() {
         if (_this.$textarea.val().replace(/^\s+|\s+$/g, '') !== '') {
-          _this.lockDocument();
+          $( "#dialog-save" ).dialog("open");
         }
       }
     },
@@ -381,7 +415,7 @@ haste.prototype.configureButtons = function() {
       },
       shortcutDescription: 'control + shift + d',
       action: function() {
-        $( "#dialog-confirm" ).dialog("open");
+        $( "#dialog-delete" ).dialog("open");
       }
     }
   ];
@@ -428,22 +462,9 @@ haste.prototype.configureShortcuts = function() {
   });
 };
 
+
 ///// Tab behavior in the textarea - 2 spaces per tab
 $(function() {
-  $( "#dialog-confirm" ).dialog({
-    autoOpen: false,
-    modal: true,
-    buttons: {
-      "Delete": function() {
-        _this.deleteDocument();
-        $( this ).dialog( "close" );
-      },
-      Cancel: function() {
-        $( this ).dialog( "close" );
-      }
-    }
-  });
-
   $('#textarea_code').keydown(function(evt) {
     if (evt.keyCode === 9) {
       evt.preventDefault();

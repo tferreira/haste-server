@@ -68,8 +68,14 @@
 		<pre id="box" style="display:none;" tabindex="0"><code></code></pre>
 		<textarea id="textarea_code" spellcheck="false" style="display:none;"></textarea>
 
-        <div id="dialog-confirm" title="Delete document">
+        <div id="dialog-delete" title="Delete document" style="display: none;">
             <p><span class="ui-icon ui-icon-alert"></span>Are you sure?</p>
+        </div>
+        <div id="dialog-save" title="Save document" style="display: none;">
+            <form>
+                <label for="name">Title</label>
+                <input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all" />
+            </form>
         </div>
 
 	</body>
