@@ -381,9 +381,7 @@ haste.prototype.configureButtons = function() {
       },
       shortcutDescription: 'control + shift + d',
       action: function() {
-        if (confirm("Are you sure?")) {
-          _this.deleteDocument();
-        }
+        $( "#dialog-confirm" ).dialog("open");
       }
     }
   ];
@@ -432,6 +430,19 @@ haste.prototype.configureShortcuts = function() {
 
 ///// Tab behavior in the textarea - 2 spaces per tab
 $(function() {
+  $( "#dialog-confirm" ).dialog({
+    autoOpen: false,
+    modal: true,
+    buttons: {
+      "Delete": function() {
+        _this.deleteDocument();
+        $( this ).dialog( "close" );
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
 
   $('#textarea_code').keydown(function(evt) {
     if (evt.keyCode === 9) {
