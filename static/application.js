@@ -52,16 +52,17 @@ haste_document.prototype.load = function(key, callback, lang) {
 };
 
 // Save this document to the server and lock it here
-haste_document.prototype.save = function(title, data, callback) {
+haste_document.prototype.save = function(title, tags, data, callback) {
   if (this.locked) {
     return false;
   }
   this.data = data;
   this.title = title;
+  this.tags = tags;
   var _this = this;
   $.ajax('/documents', {
     type: 'post',
-    data: {body: data, title: title},
+    data: {body: data, title: title, tags: tags},
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     success: function(res) {
@@ -155,12 +156,17 @@ haste.prototype.configureModals = function() {
       buttons: {
           "Ok": function() {
               var title = $("#title");
-              _this.lockDocument(title.val());
+              var tags = $("#save_tags");
+              _this.lockDocument(title.val(), tags.val());
               $(this).dialog("close");
           },
           "Cancel": function() {
               $(this).dialog("close");
           }
+      },
+      open : function(event, ui) { 
+          $("#title").val('');
+          $("#save_tags").val('');
       }
   });
 }
@@ -404,9 +410,9 @@ haste.prototype.deleteDocument = function() {
 };
 
 // Lock the current document
-haste.prototype.lockDocument = function(title) {
+haste.prototype.lockDocument = function(title, tags) {
   var _this = this;
-  this.doc.save(title, this.$textarea.val(), function(err, ret) {
+  this.doc.save(title, tags, this.$textarea.val(), function(err, ret) {
     if (err) {
       _this.showMessage(err.message, 'error');
     }

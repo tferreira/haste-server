@@ -75,9 +75,10 @@ for (var name in config.documents) {
   path = config.documents[name];
   data = fs.readFileSync(path, 'utf8');
   title = '';
+  tags = '';
   winston.info('loading static document', { name: name, path: path });
   if (data) {
-    preferredStore.set(name, data, title, function(cb) {
+    preferredStore.set(name, data, title, tags, function(cb) {
       winston.debug('loaded static document', { success: cb });
     }, true);
   }
