@@ -176,27 +176,28 @@ haste.prototype.configureSaveTags = function() {
 
     var availableTags = [
         "ActionScript",
-        "AppleScript",
-        "Asp",
-        "BASIC",
+        "Bash",
+        "Basic",
         "C",
         "C++",
-        "Clojure",
-        "COBOL",
-        "ColdFusion",
-        "Erlang",
-        "Fortran",
-        "Groovy",
-        "Haskell",
+        "Debian",
         "Java",
         "JavaScript",
-        "Lisp",
+        "Linux",
+        "Network",
+        "OpenVpn",
         "Perl",
         "PHP",
         "Python",
+        "Raspberry"
         "Ruby",
-        "Scala",
-        "Scheme"
+        "Security",
+        "Shell",
+        "System",
+        "Ubuntu",
+        "VB.net",
+        "VPN",
+        "Windows",
     ];
     function split( val ) {
         return val.split( /,\s*/ );
