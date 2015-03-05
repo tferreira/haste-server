@@ -24,10 +24,8 @@
   },
 
   "storage": {
-    "type": "redis",
-    "host": "0.0.0.0",
-    "port": 6379,
-    "db": 2
+    "type": "sqlite",
+    "file": "db.sqlite"
   },
 
   "documents": {
