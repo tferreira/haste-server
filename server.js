@@ -132,6 +132,10 @@ connect.createServer(
         skipExpire
       );
     });
+    // get tags stats
+    app.get('/tags', function (request, response, next) {
+      return documentHandler.handleTagsStats(request, response);
+    });
   }),
   // Otherwise, static
   connect.staticCache(),

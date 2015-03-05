@@ -189,7 +189,7 @@ haste.prototype.configureSaveTags = function() {
         "Perl",
         "PHP",
         "Python",
-        "Raspberry"
+        "Raspberry",
         "Ruby",
         "Security",
         "Shell",
