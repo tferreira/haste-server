@@ -102,6 +102,7 @@ var haste = function(appName, options) {
   this.configureSearch();
   this.configureModals();
   this.configureSaveTags();
+  this.configureStatsBar();
   // If del is disabled, hide the button
   if (!options.del) {
     $('#box2 .del').hide();
@@ -131,6 +132,27 @@ haste.prototype.lightKey = function() {
 // Show the full key
 haste.prototype.fullKey = function() {
   this.configureKey(['new', 'duplicate', 'del', 'raw']);
+};
+
+haste.prototype.configureStatsBar = function() {
+  var _this = this;
+  $.ajax({
+      url:'/tags/',
+      type:"get",
+      dataType: 'json',
+      async: true,
+      cache: true,
+      success: function(data){
+        var totalTags = 0;
+        $.each(data.data, function (key, item) {
+            totalTags += +item.count;
+        });
+        $.each(data.data, function (key, item) {
+          $("#stats-bar").append('<div id="' + item.tag + '-bar" class="progress"><span class="progress-title">' + item.tag + ': ' + item.count + '</span></div>');
+          $("#" + item.tag + "-bar").progressbar({ value: +item.count / totalTags * 100 });
+        });
+      }
+  });
 };
 
 haste.prototype.configureModals = function() {
@@ -169,7 +191,7 @@ haste.prototype.configureModals = function() {
           $("#save_tags").val('');
       }
   });
-}
+};
 
 haste.prototype.configureSaveTags = function() {
     var _this = this;
@@ -237,7 +259,7 @@ haste.prototype.configureSaveTags = function() {
         }
     });
 
-}
+};
 
 // Set up the search field
 haste.prototype.configureSearch = function() {

@@ -4,6 +4,27 @@ body {
 	margin: 0px;
 }
 
+/* progress bars */
+#stats-bar {
+  position: absolute;
+  width: 170px;
+  top: 240px;
+}
+.progress-title {
+  position: absolute;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.progress {
+  position:static;
+  text-align:center;
+  display:block;
+  line-height:2em;
+}
+.progress[aria-valuenow="0"] span {
+  margin-top:0px;
+}
+
 /* input search */
 #search {
   display: block;
