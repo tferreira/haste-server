@@ -102,7 +102,6 @@ var haste = function(appName, options) {
   this.configureSearch();
   this.configureModals();
   this.configureSaveTags();
-  this.configureStatsBar();
   // If del is disabled, hide the button
   if (!options.del) {
     $('#box2 .del').hide();
@@ -348,6 +347,8 @@ haste.prototype.newDocument = function(hideHistory) {
     this.focus();
   });
   this.removeLineNumbers();
+  console.log('new doc');
+  this.configureStatsBar();
 };
 
 // Map of common extensions
@@ -408,6 +409,7 @@ haste.prototype.loadDocument = function(key) {
       _this.$textarea.val('').hide();
       _this.$box.show().focus();
       _this.addLineNumbers(ret.lineCount);
+      _this.configureStatsBar();
     }
     else {
       _this.newDocument();
@@ -452,6 +454,7 @@ haste.prototype.lockDocument = function(title, tags) {
       _this.$textarea.val('').hide();
       _this.$box.show().focus();
       _this.addLineNumbers(ret.lineCount);
+      _this.configureStatsBar();
     }
   });
 };
