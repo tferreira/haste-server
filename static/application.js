@@ -136,6 +136,7 @@ haste.prototype.fullKey = function() {
 
 haste.prototype.configureStatsBar = function() {
   var _this = this;
+  $("#stats-bar").empty();
   $.ajax({
       url:'/tags/',
       type:"get",
