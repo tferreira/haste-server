@@ -77,12 +77,7 @@ haste_document.prototype.save = function(title, tags, data, callback) {
       });
     },
     error: function(res) {
-      try {
-        callback($.parseJSON(res.responseText));
-      }
-      catch (e) {
-        callback({message: 'Something went wrong!'});
-      }
+      callback(false);
     }
   });
 };
@@ -347,7 +342,6 @@ haste.prototype.newDocument = function(hideHistory) {
     this.focus();
   });
   this.removeLineNumbers();
-  console.log('new doc');
   this.configureStatsBar();
 };
 
