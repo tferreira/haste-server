@@ -76,8 +76,8 @@ haste_document.prototype.save = function(title, tags, data, callback) {
         lineCount: data.split("\n").length,
       });
     },
-    error: function(res) {
-      callback(false);
+    error: function(jqXHR, textStatus) {
+      callback({'message': 'Error or title already exists.'});
     }
   });
 };
