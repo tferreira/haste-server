@@ -74,7 +74,7 @@ var path, data;
 for (var name in config.documents) {
   path = config.documents[name];
   data = fs.readFileSync(path, 'utf8');
-  title = '';
+  title = name;
   tags = '';
   winston.info('loading static document', { name: name, path: path });
   if (data) {
